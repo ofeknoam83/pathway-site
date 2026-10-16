@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pathway is a personal case manager for visas, residence and citizenship: it finds the routes open to you, builds the plan, and does the paperwork. You approve anything irreversible.">
+<meta property="og:title" content="Pathway — from “I want to live there” to living there">
+<meta property="og:description" content="A personal case manager for visas, residence and citizenship. Early access opening in 2027.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Ccircle cx=%2714%27 cy=%2714%27 r=%2712%27 fill=%27none%27 stroke=%27%232E5BFF%27 stroke-width=%272%27/%3E%3Cpath d=%27M8 17 L14 8 L20 17%27 fill=%27none%27 stroke=%27%232E5BFF%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3Ccircle cx=%2714%27 cy=%2719%27 r=%271.6%27 fill=%27%232E5BFF%27/%3E%3C/svg%3E">
+<!-- Analytics: paste Plausible or GA4 snippet here; events fire automatically via track() -->
+</head>
+<body>
+<title>Pathway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
+<style>
+/* Layout: one 1120px column, generous vertical rhythm, cards only where an object needs to be set apart */
+:root {
+  --bg: #F6F7FB; --surface: #FFFFFF; --ink: #0F1222; --ink-2: #5B6478; --ink-3: #8A93A8;
+  --line: #E3E6EF; --action: #2E5BFF; --action-tint: #E8EDFF; --warn: #A85A00; --warn-tint: #FFEFD6;
+  --good: #15803D; --good-tint: #DFF5E8; --dark: #0F1222;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; font-feature-settings: 'cv11', 'ss01'; }
+a { color: var(--action); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img, svg { max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid rgba(46,91,255,.35); outline-offset: 2px; border-radius: 8px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); }
+.eyebrow.a { color: var(--action); }
+h1, h2, h3 { margin: 0; font-optical-sizing: auto; letter-spacing: -0.025em; text-wrap: balance; line-height: 1.08; }
+h1 { font-size: clamp(38px, 6vw, 68px); font-weight: 600; }
+h2 { font-size: clamp(28px, 3.6vw, 40px); font-weight: 600; }
+h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; }
+p { margin: 0; }
+.lead { font-size: 18px; color: var(--ink-2); max-width: 62ch; }
+.muted { color: var(--ink-2); }
+.small { font-size: 14px; }
+section { padding-block: 88px; }
+section.tight { padding-block: 56px; }
+.sec-head { display: flex; flex-direction: column; gap: 14px; max-width: 760px; margin-bottom: 44px; }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(246,247,251,.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.nav .wrap { display: flex; align-items: center; gap: 28px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; letter-spacing: -0.01em; color: var(--ink); }
+.brand svg { color: var(--action); }
+.nav nav { display: flex; gap: 22px; margin-left: auto; }
+.nav nav a { color: var(--ink-2); font-size: 14.5px; font-weight: 500; }
+.nav nav a:hover { color: var(--ink); text-decoration: none; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 18px; border-radius: 12px; border: 1px solid transparent; font-weight: 600; font-size: 15px; cursor: pointer; white-space: nowrap; transition: transform .12s ease, box-shadow .12s ease, background .12s ease; }
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn.pri { background: var(--action); color: #fff; box-shadow: 0 12px 24px -12px rgba(46,91,255,.7); }
+.btn.pri:hover { background: #2450F0; }
+.btn.sec { background: var(--surface); border-color: var(--line); color: var(--ink); }
+.btn.dk { background: var(--dark); color: #fff; }
+.btn.lg { height: 54px; padding: 0 22px; font-size: 16px; border-radius: 14px; }
+.btn.sm { height: 38px; padding: 0 14px; font-size: 14px; }
+.nav .btn { margin-left: 8px; }
+
+/* hero */
+.hero { padding-block: 72px 64px; position: relative; overflow: hidden; }
+.hero .glow { position: absolute; width: 640px; height: 640px; border-radius: 50%; background: #C9D5FF; filter: blur(110px); opacity: .55; top: -300px; right: -200px; pointer-events: none; }
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 56px; align-items: center; }
+.hero .copy { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.hero .copy .lead { font-size: 19px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 13px; font-weight: 500; color: var(--ink-2); width: fit-content; }
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--action); box-shadow: 0 0 10px var(--action); display: inline-block; }
+.goalbox { background: var(--surface); border: 1px solid var(--action); border-radius: 22px; padding: 20px; box-shadow: 0 0 0 5px rgba(46,91,255,.10), 0 30px 60px -36px rgba(46,91,255,.6); display: flex; flex-direction: column; gap: 14px; }
+.goalbox label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.goalbox textarea { width: 100%; min-height: 110px; resize: vertical; border: 0; outline: 0; background: transparent; font-size: 19px; line-height: 1.45; font-optical-sizing: auto; }
+.goalbox textarea::placeholder { color: var(--ink-3); }
+.goalbox .foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.goalbox .hint { font-size: 13px; color: var(--ink-2); }
+.examples { display: flex; flex-wrap: wrap; gap: 8px; }
+.examples button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 13px; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+.examples button:hover { border-color: var(--action); color: var(--action); }
+.proof { display: flex; gap: 24px; flex-wrap: wrap; color: var(--ink-2); font-size: 14px; }
+.proof span { display: inline-flex; align-items: center; gap: 8px; }
+.proof svg { color: var(--good); flex-shrink: 0; }
+
+/* phone preview */
+.phonewrap { display: flex; justify-content: center; min-width: 0; }
+.phone { width: 360px; max-width: 100%; border-radius: 40px; background: var(--bg); border: 1px solid var(--line); box-shadow: 0 50px 90px -50px rgba(15,18,34,.4), 0 0 0 6px #fff, 0 0 0 7px var(--line); padding: 26px 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+.phone .ttl { display: flex; justify-content: space-between; align-items: center; }
+.phone .ttl b { font-size: 15px; letter-spacing: -0.01em; }
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: #EEF0F6; color: #3A4358; white-space: nowrap; }
+.chip.a { background: var(--action-tint); color: var(--action); }
+.chip.w { background: var(--warn-tint); color: var(--warn); }
+.chip.g { background: var(--good-tint); color: var(--good); }
+.chip.solid { background: var(--action); color: #fff; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.card.accent { border-color: var(--action); box-shadow: 0 14px 30px -18px rgba(46,91,255,.5); }
+.card .hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card .hd b { font-size: 14.5px; letter-spacing: -0.01em; }
+.card .d { font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+.kpi { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.kpi div { background: var(--bg); border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; }
+.kpi small { font-size: 10.5px; color: var(--ink-2); }
+.kpi strong { font-size: 15px; letter-spacing: -0.01em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid #EEF0F6; font-size: 13px; }
+.row:first-of-type { border-top: 0; padding-top: 0; }
+.row .ck { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid #CBD0DC; }
+.row .ck.on { background: var(--good); border-color: var(--good); color: #fff; }
+.row .ck.cur { border-color: var(--action); position: relative; }
+.row .ck.cur::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--action); }
+.row .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.row .tx span { font-size: 11.5px; color: var(--ink-2); }
+.src { font-size: 11px; color: var(--ink-3); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.src b { color: var(--action); background: var(--action-tint); padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+
+/* problem */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 28px; }
+.three > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.three .num { font-size: 44px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-optical-sizing: auto; color: var(--ink); font-variant-numeric: tabular-nums; }
+.three p { color: var(--ink-2); }
+.three b { font-size: 17px; letter-spacing: -0.01em; }
+
+/* loop */
+.loop { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 14px; }
+.loop .st { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.loop .st.hi { border-color: var(--action); box-shadow: 0 16px 34px -22px rgba(46,91,255,.6); }
+.loop .st b { font-size: 16px; letter-spacing: -0.01em; }
+.loop .st span { font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
+.loop .st .eyebrow { font-size: 11px; }
+
+/* personas */
+.cards3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 22px; }
+.pcard { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.pcard .who { display: flex; align-items: center; gap: 12px; }
+.pcard .av { width: 42px; height: 42px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; flex-shrink: 0; }
+.pcard .who b { display: block; font-size: 17px; letter-spacing: -0.015em; }
+.pcard .who span { font-size: 13px; color: var(--ink-2); }
+.pcard q { font-size: 15.5px; line-height: 1.5; quotes: '\201C' '\201D'; }
+.pcard .did { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 14px; }
+.pcard .did div { display: flex; gap: 10px; font-size: 13.5px; color: var(--ink-2); align-items: flex-start; }
+.pcard .did svg { flex-shrink: 0; margin-top: 3px; color: var(--good); }
+
+/* compare */
+.compare { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+.compare > div { padding: 16px 18px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 14.5px; min-width: 0; }
+.compare > div:nth-child(4n) { border-right: 0; }
+.compare > div:nth-last-child(-n+4) { border-bottom: 0; }
+.compare .h { background: var(--bg); font-weight: 600; font-size: 13px; letter-spacing: .02em; }
+.compare .h.us { background: var(--action-tint); color: var(--action); }
+.compare .lbl { font-weight: 600; }
+.compare .us { background: #F6F8FF; }
+.compare .no { color: var(--ink-3); }
+.compare .yes { color: var(--good); font-weight: 600; }
+.compare-scroll { overflow-x: auto; }
+.compare-scroll .compare { min-width: 720px; }
+
+/* trust */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.listcard { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.listcard h3 { display: flex; align-items: center; gap: 10px; }
+.listcard ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.listcard li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: var(--ink-2); }
+.listcard li svg { flex-shrink: 0; margin-top: 3px; }
+.listcard.never { border-color: #F5C98A; background: #FFFCF7; }
+
+/* pricing */
+.plans { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; }
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.plan.hi { border-color: var(--action); box-shadow: 0 20px 40px -26px rgba(46,91,255,.6); }
+.plan .price { font-size: 34px; font-weight: 600; letter-spacing: -0.03em; font-optical-sizing: auto; line-height: 1; }
+.plan .price small { font-size: 14px; font-weight: 500; color: var(--ink-2); letter-spacing: 0; }
+.plan ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.plan li { font-size: 14px; color: var(--ink-2); display: flex; gap: 8px; align-items: flex-start; }
+.plan li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--action); flex-shrink: 0; margin-top: 8px; }
+.plan .btn { width: 100%; }
+
+/* signup */
+.signup { background: var(--dark); color: #fff; border-radius: 28px; padding: 56px; position: relative; overflow: hidden; }
+.signup .glow { position: absolute; width: 520px; height: 520px; border-radius: 50%; background: var(--action); filter: blur(110px); opacity: .45; bottom: -300px; left: -120px; pointer-events: none; }
+.signup .inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.signup h2 { color: #fff; }
+.signup .lead { color: rgba(255,255,255,.72); }
+.signup .eyebrow { color: #8FA7FF; }
+.form { background: #fff; color: var(--ink); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13px; font-weight: 600; }
+.field input, .field select, .field textarea { height: 46px; border-radius: 12px; border: 1px solid var(--line); background: #fff; padding: 0 14px; font-size: 15px; width: 100%; }
+.field textarea { height: auto; min-height: 84px; padding: 12px 14px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--action); outline: 0; box-shadow: 0 0 0 4px rgba(46,91,255,.12); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg label { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg label:has(input:checked) { border-color: var(--action); background: var(--action-tint); color: var(--action); font-weight: 600; }
+.seg label:has(input:focus-visible) { outline: 3px solid rgba(46,91,255,.35); }
+.form .fine { font-size: 12.5px; color: var(--ink-2); line-height: 1.5; }
+.err { color: #B91C1C; font-size: 13px; display: none; }
+.err.on { display: block; }
+.thanks { display: none; flex-direction: column; gap: 14px; }
+.thanks.on { display: flex; }
+.thanks .ok { width: 48px; height: 48px; border-radius: 14px; background: var(--good-tint); color: var(--good); display: flex; align-items: center; justify-content: center; }
+.hidden-step { display: none; }
+.hidden-step.on { display: flex; flex-direction: column; gap: 14px; }
+.sharebox { display: flex; gap: 8px; align-items: center; }
+.sharebox input { flex: 1; min-width: 0; }
+
+/* faq */
+.faq { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 36px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 4px 20px; }
+.faq summary { cursor: pointer; font-weight: 600; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; color: var(--ink-3); font-size: 22px; font-weight: 400; line-height: 1; }
+.faq details[open] summary::after { content: '–'; }
+.faq p { color: var(--ink-2); padding-bottom: 16px; font-size: 15px; }
+
+/* footer */
+footer { padding-block: 40px 56px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: 14px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+/* toast */
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(20px); background: var(--dark); color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 30; }
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 960px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
+  .loop { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .plans { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .cards3, .three { grid-template-columns: 1fr; }
+  .signup .inner { grid-template-columns: 1fr; }
+  .signup { padding: 36px 24px; }
+  .nav nav { display: none; }
+  .two, .faq { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .loop, .plans, .grid2 { grid-template-columns: 1fr; }
+  section { padding-block: 60px; }
+  .hero { padding-block: 44px; }
+}
+@media (prefers-reduced-motion: reduce) { .btn, .toast { transition: none; } }
+</style>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 17 L14 8 L20 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="19" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg width="26" height="26"><use href="#i-logo"/></svg>Pathway</a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#who">Who it's for</a>
+      <a href="#trust">Trust</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn pri" href="#join" data-track="cta_nav">Get early access</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="copy">
+      <span class="pill"><i></i>Private build · first 200 cases open in 2027</span>
+      <h1>From “I want to live there” to living there.</h1>
+      <p class="lead">Pathway is a personal case manager for visas, residence and citizenship. Tell it your goal; it finds the routes that are actually open to you, builds the plan, and then does the work: emails, document requests, appointments, forms. You approve anything irreversible.</p>
+      <div class="goalbox">
+        <label for="goal">Your goal, in your words</label>
+        <textarea id="goal" placeholder="e.g. I'm a remote designer in São Paulo. I want to live in Lisbon and have a real path to staying in Europe."></textarea>
+        <div class="foot">
+          <span class="hint">We'll show you which routes exist, then invite you to run one.</span>
+          <button class="btn pri" id="goal-go" type="button">Find my routes <svg width="16" height="16"><use href="#i-arrow"/></svg></button>
+        </div>
+      </div>
+      <div class="examples" aria-label="Example goals">
+        <button type="button" data-ex="I have a job offer in Berlin and want to move with my wife and daughter by March.">Job offer + family → Germany</button>
+        <button type="button" data-ex="My grandmother was born in Italy. I want Italian citizenship for me and my kids.">Citizenship by ancestry</button>
+        <button type="button" data-ex="I work remotely for a US company and want to live in Spain or Portugal.">Remote work → Spain / Portugal</button>
+        <button type="button" data-ex="I'm 22, finished school abroad, and want to study and then settle in the EU.">Study → settle in the EU</button>
+      </div>
+      <div class="proof">
+        <span><svg width="16" height="16"><use href="#i-check"/></svg>Every rule shown with its official source and date</span>
+        <span><svg width="16" height="16"><use href="#i-check"/></svg>Payments and submissions always your click</span>
+        <span><svg width="16" height="16"><use href="#i-check"/></svg>Licensed advisers on regulated steps</span>
+      </div>
+    </div>
+    <div class="phonewrap" aria-label="Example of a Pathway route card">
+      <div class="phone">
+        <div class="ttl"><b>4 routes open. 1 closed.</b><span class="chip">Sorted by speed</span></div>
+        <div class="card accent">
+          <div class="hd"><div><b>Portugal · D8 residence visa</b><div class="d">Remote-work visa → 2-year permit → permanent status</div></div><span class="chip solid">Best fit</span></div>
+          <div class="kpi"><div><small>To visa</small><strong>~5 mo</strong></div><div><small>To permanent</small><strong>5 yrs</strong></div><div><small>Cost to visa</small><strong>€900–1,400</strong></div></div>
+          <div class="chips"><span class="chip g">Income met · 1.5× floor</span><span class="chip w">Criminal record</span><span class="chip w">12-month lease</span></div>
+          <div class="src"><b>aima.gov.pt · D8</b><span>checked 14 Oct 2026</span></div>
+        </div>
+        <div class="card">
+          <div class="hd"><div><b>Spain · digital nomad visa</b><div class="d">3-year card; higher income floor</div></div><span class="chip">Fallback</span></div>
+        </div>
+        <div class="card">
+          <div class="row"><span class="ck on"><svg width="11" height="11"><use href="#i-check"/></svg></span><div class="tx">Confirm income evidence format<span>Agent · done</span></div></div>
+          <div class="row"><span class="ck cur"></span><div class="tx">Fiscal number via representative<span style="color:var(--action)">Agent · 2 quotes in · your approval next</span></div></div>
+          <div class="row"><span class="ck"></span><div class="tx">Open a Portuguese bank account<span>You · gates the lease</span></div></div>
+          <div class="row"><span class="ck"></span><div class="tx">12-month accommodation<span>Agent sources · you sign</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">The problem</span>
+      <h2>Information was never the problem. Finishing is.</h2>
+      <p class="lead">Every rule is online. What sinks people is the gate they didn't know to check, the office that never replies, and the rule that changed in month nine.</p>
+    </div>
+    <div class="three">
+      <div><span class="num">50–200h</span><b>spent on forums, embassy sites and group chats</b><p>And still no one asked the two questions that decided the case: which passport, which diploma.</p></div>
+      <div><span class="num">€2k–8k</span><b>for an agency to do the chasing</b><p>Relocation firms and consultants do the work, at a price most individuals can't justify, and only for one country.</p></div>
+      <div><span class="num">2–5 yrs</span><b>of paperwork that nobody tracks end to end</b><p>Renewals, hour caps, address changes, fee updates. A chatbot answers once. A case manager stays.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">How it works</span>
+      <h2>One loop. You own every decision; the agent does the work.</h2>
+    </div>
+    <div class="loop">
+      <div class="st"><span class="eyebrow">1 · Goal</span><b>Say it</b><span>A sentence becomes an end state with your constraints and priorities.</span></div>
+      <div class="st hi"><span class="eyebrow a">2 · Gates</span><b>Blockers first</b><span>Passport, diploma, income, family. The deciding questions come before any plan.</span></div>
+      <div class="st"><span class="eyebrow">3 · Routes</span><b>What's open</b><span>Two to five viable paths, priced in time, money and certainty, with a pinned fallback.</span></div>
+      <div class="st"><span class="eyebrow">4 · Plan</span><b>Owners and dates</b><span>A dependency chain. Every task has a name: you, the agent, or a third party.</span></div>
+      <div class="st hi"><span class="eyebrow a">5 · Execute</span><b>Done, not described</b><span>Emails, document requests, forms, appointment watching. You approve what's irreversible.</span></div>
+      <div class="st"><span class="eyebrow">6 · Finish</span><b>Watched to the end</b><span>Rules and deadlines monitored; the plan re-computes when something changes.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">Who it's for</span>
+      <h2>Three very different lives. The same case manager.</h2>
+      <p class="lead">Illustrative cases from our research. Names are invented; the rules are real.</p>
+    </div>
+    <div class="cards3">
+      <div class="pcard">
+        <div class="who"><div class="av" style="background:#2E5BFF">M</div><div><b>Maya, 31 · remote designer</b><span>São Paulo → Lisbon</span></div></div>
+        <q>I want to keep my job and have a real path to staying in Europe.</q>
+        <div class="did">
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Income checked against the D8 floor, with the source</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Fiscal number, bank account, lease and insurance sequenced</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Consulate slots watched; residence-permit renewal dated</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="who"><div class="av" style="background:#0F1222">D</div><div><b>Daniel, 29 · engineer</b><span>Lagos → Berlin, with family</span></div></div>
+        <q>Move with my wife and daughter for a job that starts in March. No surprises.</q>
+        <div class="did">
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Degree recognition looked up before any route was drawn</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Employer forms chased and checked against the contract</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Three same-day embassy slots found after 11 days of watching</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="who"><div class="av" style="background:#1F9D55">S</div><div><b>Sofia, 38 · Chicago</b><span>Italian citizenship by descent</span></div></div>
+        <q>Through my grandmother, so my kids can study and work in Europe.</q>
+        <div class="did">
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Family line checked against the two rules that break it</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Five records requested from a comune, a federal archive, a county clerk</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Apostilles and sworn translations sequenced; a name mismatch caught</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">Compared</span>
+      <h2>Not a chatbot. Not an agency.</h2>
+    </div>
+    <div class="compare-scroll">
+    <div class="compare">
+      <div class="h"></div><div class="h">Forums &amp; AI chat</div><div class="h">Agency or lawyer</div><div class="h us">Pathway</div>
+      <div class="lbl">Finds routes open to <em>you</em></div><div class="no">Generic answers</div><div class="yes">Yes</div><div class="us yes">Yes, with gates first</div>
+      <div class="lbl">Does the work (emails, forms, bookings)</div><div class="no">No</div><div class="yes">Yes</div><div class="us yes">Yes, you approve</div>
+      <div class="lbl">Tracks the case for years</div><div class="no">No</div><div class="no">Usually one filing</div><div class="us yes">Yes, with rule monitoring</div>
+      <div class="lbl">Shows the official source for every rule</div><div class="no">Rarely</div><div class="no">On request</div><div class="us yes">Always, with a date</div>
+      <div class="lbl">Cost</div><div class="yes">Free</div><div class="no">€2,000–8,000 per move</div><div class="us yes">From €39 / month while active</div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">Trust</span>
+      <h2>What the agent does on its own, and what it never does.</h2>
+      <p class="lead">You set a mandate for who it may write to on your behalf. Everything else reaches you as a one-tap approval card first.</p>
+    </div>
+    <div class="two">
+      <div class="listcard">
+        <h3><svg width="20" height="20" style="color:var(--action)"><use href="#i-shield"/></svg>Within your mandate</h3>
+        <ul>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Write to schools, landlords, employers and archives in your name, and chase them for weeks</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Request certificates, apostilles and sworn translations in the right order</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Pre-fill portal forms from your documents, then stop at the review screen</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Watch appointment slots, deadlines and rule changes, and re-plan</li>
+        </ul>
+      </div>
+      <div class="listcard never">
+        <h3><svg width="20" height="20" style="color:var(--warn)"><use href="#i-lock"/></svg>Never, under any setting</h3>
+        <ul>
+          <li><svg width="16" height="16" style="color:var(--warn)"><use href="#i-x"/></svg>Pay, sign, or submit anything to a government body</li>
+          <li><svg width="16" height="16" style="color:var(--warn)"><use href="#i-x"/></svg>Type your passport or identity numbers into any form</li>
+          <li><svg width="16" height="16" style="color:var(--warn)"><use href="#i-x"/></svg>Give a legal opinion: regulated judgement goes to a licensed adviser, named on your case</li>
+          <li><svg width="16" height="16" style="color:var(--warn)"><use href="#i-x"/></svg>Misrepresent your situation to improve your odds</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">Pricing · planned</span>
+      <h2>Pay while the case is running. Discovery is free.</h2>
+      <p class="lead">These are the plans we intend to launch with. Tell us which one you'd choose; it shapes what we build first.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <span class="eyebrow">Discover</span>
+        <div class="price">€0</div>
+        <ul><li>Goal, gate questions, routes with blockers</li><li>A plan skeleton you can keep</li><li>Official sources on every rule</li></ul>
+        <a class="btn sec" href="#join" data-plan="discover" data-track="plan_interest">I'd start here</a>
+      </div>
+      <div class="plan hi">
+        <span class="eyebrow a">Case</span>
+        <div class="price">€39 <small>/ month while active</small></div>
+        <ul><li>Full plan with owners and dates</li><li>Agent executes within your mandate</li><li>Document vault, monitoring, unlimited approvals</li><li>Pause for €5 / month, keep the vault</li></ul>
+        <a class="btn pri" href="#join" data-plan="case" data-track="plan_interest">I'd pay for this</a>
+      </div>
+      <div class="plan">
+        <span class="eyebrow">Case Pro</span>
+        <div class="price">€99 <small>/ month while active</small></div>
+        <ul><li>Everything in Case</li><li>Family members on one case</li><li>Document production and translations credit</li><li>One licensed review included per quarter</li></ul>
+        <a class="btn sec" href="#join" data-plan="pro" data-track="plan_interest">I'd pay for this</a>
+      </div>
+      <div class="plan">
+        <span class="eyebrow">Expert review</span>
+        <div class="price" style="font-size:28px">€150–400 <small>per review</small></div>
+        <ul><li>A licensed adviser reviews a filing, an eligibility question or a refusal</li><li>Named, with a written finding</li><li>Available on any plan</li></ul>
+        <a class="btn sec" href="#join" data-plan="expert" data-track="plan_interest">I'd want this</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <div class="signup">
+      <div class="glow"></div>
+      <div class="inner">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <span class="eyebrow">Early access</span>
+          <h2>We're opening the first 200 cases in 2027. Tell us yours.</h2>
+          <p class="lead">You'll get an honest answer within a few days: which routes we can run for your goal now, which we can't yet, and when. No marketing drip.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;color:rgba(255,255,255,.72);font-size:14.5px">
+            <span style="display:flex;gap:10px;align-items:flex-start"><svg width="16" height="16" style="color:#8FA7FF;flex-shrink:0;margin-top:3px"><use href="#i-check"/></svg>Corridors opening first: Portugal and Spain for remote workers; Germany for skilled workers and families; Italy and Poland by descent; France and Germany study routes.</span>
+            <span style="display:flex;gap:10px;align-items:flex-start"><svg width="16" height="16" style="color:#8FA7FF;flex-shrink:0;margin-top:3px"><use href="#i-check"/></svg>Your goal and email are used only to assess your case and invite you. Delete them any time by replying to our first email.</span>
+          </div>
+        </div>
+        <form class="form" id="form" novalidate>
+          <div id="step1" style="display:flex;flex-direction:column;gap:14px">
+            <div class="field"><label for="f-goal">Your goal</label><textarea id="f-goal" name="goal" placeholder="Where do you want your life to be, and what's your situation?"></textarea></div>
+            <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+            <div class="field"><span style="font-size:13px;font-weight:600">Which describes you best?</span>
+              <div class="seg" role="radiogroup" aria-label="Situation">
+                <label><input type="radio" name="situation" value="remote">Remote worker / freelancer</label>
+                <label><input type="radio" name="situation" value="offer">Job offer abroad</label>
+                <label><input type="radio" name="situation" value="student">Study route</label>
+                <label><input type="radio" name="situation" value="ancestry">Ancestry / descent</label>
+                <label><input type="radio" name="situation" value="family">Joining family</label>
+                <label><input type="radio" name="situation" value="other">Other</label>
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field"><label for="f-when">When do you want to move?</label><select id="f-when" name="timeline"><option value="">Choose</option><option value="lt6">Within 6 months</option><option value="6to12">6–12 months</option><option value="1to2y">1–2 years</option><option value="2y+">2+ years</option><option value="unsure">Not sure yet</option></select></div>
+              <div class="field"><label for="f-plan">Plan you'd choose</label><select id="f-plan" name="plan"><option value="">Choose</option><option value="discover">Discover (free)</option><option value="case">Case · €39/mo</option><option value="pro">Case Pro · €99/mo</option><option value="expert">Expert review only</option><option value="none">None of these</option></select></div>
+            </div>
+            <span class="err" id="err">Enter a valid email so we can reply.</span>
+            <button class="btn pri lg" type="submit" id="submit">Request early access <svg width="16" height="16"><use href="#i-arrow"/></svg></button>
+            <p class="fine">Not legal advice. We never sell your data. By joining you agree to be contacted about Pathway once your case is assessed.</p>
+          </div>
+          <div class="thanks" id="thanks">
+            <div class="ok"><svg width="22" height="22"><use href="#i-check"/></svg></div>
+            <h3>You're on the list.</h3>
+            <p class="muted">We'll read your goal and reply with what we can run for you. Two more questions help us decide what to build first:</p>
+            <div class="hidden-step on" id="step2">
+              <div class="field"><span style="font-size:13px;font-weight:600">What would you honestly pay per month while your case is active?</span>
+                <div class="seg" role="radiogroup" aria-label="Willingness to pay">
+                  <label><input type="radio" name="wtp" value="0">€0</label>
+                  <label><input type="radio" name="wtp" value="10-19">€10–19</label>
+                  <label><input type="radio" name="wtp" value="20-49">€20–49</label>
+                  <label><input type="radio" name="wtp" value="50-99">€50–99</label>
+                  <label><input type="radio" name="wtp" value="100+">€100+</label>
+                </div>
+              </div>
+              <div class="field"><label for="f-fear">What worries you most about doing this?</label><textarea id="f-fear" name="fear" placeholder="e.g. getting refused, trusting an AI with my passport, the cost…"></textarea></div>
+              <button class="btn dk" type="button" id="survey">Send answers</button>
+            </div>
+            <div class="hidden-step" id="step3">
+              <p class="muted">Thanks. Know someone with the same goal? Send them the link.</p>
+              <div class="sharebox"><input id="share-url" readonly aria-label="Page link"><button class="btn sec" type="button" id="copy">Copy</button></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">Questions</span>
+      <h2>Fair questions.</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Is this legal advice?</summary><p>No. Pathway shows you the official rule, with its source and the date we last checked it, and applies it to the facts you give us. Where a legal opinion is required or the law regulates who may advise, a licensed adviser is brought onto your case and named. You always see which steps were theirs.</p></details>
+      <details><summary>What does the agent actually do without me?</summary><p>Only what you allow in your mandate: writing to the kinds of counterparties you tick (schools, landlords, employers, archives), chasing them, requesting documents, pre-filling forms, and watching slots and rules. Payments, government submissions, signatures and anything that fixes a date always come to you first.</p></details>
+      <details><summary>Which countries first?</summary><p>Portugal and Spain for remote workers; Germany for skilled workers and families; Italy and Poland by descent; France and Germany student routes. Each corridor launches only after a licensed partner has reviewed its rules. Tell us your goal even if it isn't listed; demand decides the order.</p></details>
+      <details><summary>What happens to my documents?</summary><p>They're stored in the EU, encrypted with a key tied to your account, and read field by field only by the agents working your case. Nothing is used to train models. You can delete anything at any time.</p></details>
+      <details><summary>What if my application is refused?</summary><p>The plan carries a pinned fallback from day one, chosen so it shares most of the paperwork. On a refusal the agent stops, explains the reason as stated by the authority, and re-plans with you. It never resubmits on its own.</p></details>
+      <details><summary>Why early access and not a product today?</summary><p>Because we want to run real cases with a small group before opening up, and because every corridor needs rules verified by a licensed partner first. The first 200 cases get the attention of a concierge and a price that stays fixed for the life of the case.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand" style="font-size:16px"><svg width="22" height="22"><use href="#i-logo"/></svg>Pathway</span>
+    <span>Not legal advice. Figures on this page are planned, not final. © 2026 Pathway</span>
+    <span><a href="#join">Early access</a> · <span id="contact-email">hello@pathway.example</span></span>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  // ---- CONFIG: set before deploying ----------------------------------
+  var CONFIG = {
+    // Where signups POST as JSON. Formspree, Tally, n8n, Make, a Google Apps Script URL, or your own endpoint.
+    // Leave empty to run in demo mode (shows success, keeps entries in this browser only).
+    endpoint: "https://formspree.io/f/maeqaldg",
+    // Optional: Plausible or GA4 are picked up automatically if their scripts are on the page.
+    contactEmail: "hello@pathway.example"
+  };
+  // ---------------------------------------------------------------------
+
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var state = { id: null, plan: "", goalTypedTracked: false };
+
+  function track(name, props) {
+    try {
+      if (window.plausible) window.plausible(name, { props: props || {} });
+      if (window.gtag) window.gtag('event', name, props || {});
+      window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: name }, props || {}));
+    } catch (e) {}
+  }
+  function toast(msg) { var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(function () { t.classList.remove('on'); }, 2400); }
+  function utm() {
+    var out = {};
+    try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_|^ref$/.test(k)) out[k] = v; }); } catch (e) {}
+    out.referrer = document.referrer || '';
+    return out;
+  }
+  function localSave(key, obj) { try { var a = JSON.parse(localStorage.getItem(key) || '[]'); a.push(obj); localStorage.setItem(key, JSON.stringify(a)); } catch (e) {} }
+
+  function send(payload) {
+    payload.page = location.href; payload.ts = new Date().toISOString(); payload.ua = navigator.userAgent;
+    Object.assign(payload, utm());
+    if (!CONFIG.endpoint) { localSave('pathway_signups', payload); return Promise.resolve({ demo: true }); }
+    return fetch(CONFIG.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { if (!r.ok) throw new Error('bad status ' + r.status); return r.json().catch(function () { return {}; }); });
+  }
+
+  // hero goal → form
+  var goal = $('#goal'), fgoal = $('#f-goal');
+  goal.addEventListener('input', function () {
+    fgoal.value = goal.value;
+    if (!state.goalTypedTracked && goal.value.trim().length > 20) { state.goalTypedTracked = true; track('goal_typed', { length: goal.value.length }); }
+  });
+  $('#goal-go').addEventListener('click', function () {
+    track('cta_find_routes', { has_goal: goal.value.trim().length > 0 });
+    fgoal.value = goal.value;
+    document.getElementById('join').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () { (goal.value.trim() ? $('#f-email') : fgoal).focus({ preventScroll: true }); }, 500);
+  });
+  $$('.examples button').forEach(function (b) {
+    b.addEventListener('click', function () { goal.value = b.getAttribute('data-ex'); fgoal.value = goal.value; goal.focus(); track('example_goal', { example: b.textContent.trim() }); });
+  });
+
+  // plan interest
+  $$('[data-plan]').forEach(function (a) {
+    a.addEventListener('click', function () { state.plan = a.getAttribute('data-plan'); $('#f-plan').value = state.plan; track('plan_interest', { plan: state.plan }); });
+  });
+  $$('[data-track="cta_nav"]').forEach(function (a) { a.addEventListener('click', function () { track('cta_nav'); }); });
+
+  // submit
+  var form = $('#form'), err = $('#err'), submit = $('#submit');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('#f-email').value.trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    err.classList.toggle('on', !ok);
+    if (!ok) { $('#f-email').focus(); return; }
+    var sit = (form.querySelector('input[name="situation"]:checked') || {}).value || '';
+    state.id = 'pw_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    var payload = { type: 'signup', id: state.id, email: email, goal: fgoal.value.trim(), situation: sit, timeline: $('#f-when').value, plan: $('#f-plan').value || state.plan };
+    submit.disabled = true; submit.textContent = 'Sending…';
+    send(payload).then(function (res) {
+      track('signup', { situation: sit, timeline: payload.timeline, plan: payload.plan, demo: !!res.demo });
+      $('#step1').style.display = 'none'; $('#thanks').classList.add('on');
+      $('#share-url').value = location.origin + location.pathname;
+      $('#thanks').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }).catch(function () {
+      submit.disabled = false; submit.innerHTML = 'Request early access';
+      err.textContent = "Couldn't send right now. Try again, or email " + CONFIG.contactEmail + '.'; err.classList.add('on');
+    });
+  });
+
+  // survey
+  $('#survey').addEventListener('click', function () {
+    var wtp = (form.querySelector('input[name="wtp"]:checked') || {}).value || '';
+    var fear = $('#f-fear').value.trim();
+    var btn = $('#survey'); btn.disabled = true; btn.textContent = 'Sending…';
+    send({ type: 'survey', id: state.id, email: $('#f-email').value.trim(), wtp: wtp, fear: fear }).then(function () {
+      track('survey_complete', { wtp: wtp });
+      $('#step2').classList.remove('on'); $('#step3').classList.add('on');
+    }).catch(function () { btn.disabled = false; btn.textContent = 'Send answers'; toast("Couldn't send. Try again."); });
+  });
+
+  // copy link
+  $('#copy').addEventListener('click', function () {
+    var v = $('#share-url').value;
+    function fallback() { $('#share-url').select(); toast('Link selected. Press copy.'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(function () { toast('Link copied'); track('share_copy'); }, fallback); else fallback();
+  });
+
+  $('#contact-email').textContent = CONFIG.contactEmail;
+  track('page_view', utm());
+})();
+</script>
+
+</body>
+</html>
