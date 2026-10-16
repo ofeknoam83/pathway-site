@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Pathway is a personal case manager for visas, residence and citizenship: it finds the routes open to you, builds the plan, and does the paperwork. You approve anything irreversible.">
-<meta property="og:title" content="Pathway — from “I want to live there” to living there">
-<meta property="og:description" content="A personal case manager for visas, residence and citizenship. Early access opening in 2027.">
+<meta name="description" content="Pathway handles any visa to the finish: a tourist or business visa for a trip, a work or study permit, or citizenship. It finds exactly what you need, builds the plan and does the paperwork; you approve anything irreversible.">
+<meta property="og:title" content="Pathway — any visa, handled to the finish">
+<meta property="og:description" content="Tourist and business visas, residence and citizenship. A personal case manager. Early access opening in 2027.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Ccircle cx=%2714%27 cy=%2714%27 r=%2712%27 fill=%27none%27 stroke=%27%232E5BFF%27 stroke-width=%272%27/%3E%3Cpath d=%27M8 17 L14 8 L20 17%27 fill=%27none%27 stroke=%27%232E5BFF%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3Ccircle cx=%2714%27 cy=%2719%27 r=%271.6%27 fill=%27%232E5BFF%27/%3E%3C/svg%3E">
 <!-- Analytics: paste Plausible or GA4 snippet here; events fire automatically via track() -->
@@ -133,7 +133,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .loop .st .eyebrow { font-size: 11px; }
 
 /* personas */
-.cards3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 22px; }
+.cards3 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; }
 .pcard { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .pcard .who { display: flex; align-items: center; gap: 12px; }
 .pcard .av { width: 42px; height: 42px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; flex-shrink: 0; }
@@ -149,6 +149,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .compare > div { padding: 16px 18px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 14.5px; min-width: 0; }
 .compare > div:nth-child(4n) { border-right: 0; }
 .compare > div:nth-last-child(-n+4) { border-bottom: 0; }
+.compare .us.no { color: var(--ink-3); }
 .compare .h { background: var(--bg); font-weight: 600; font-size: 13px; letter-spacing: .02em; }
 .compare .h.us { background: var(--action-tint); color: var(--action); }
 .compare .lbl { font-weight: 600; }
@@ -229,14 +230,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
   .loop { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .plans { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .cards3, .three { grid-template-columns: 1fr; }
+  .cards3 { grid-template-columns: 1fr 1fr; }
+  .three { grid-template-columns: 1fr; }
   .signup .inner { grid-template-columns: 1fr; }
   .signup { padding: 36px 24px; }
   .nav nav { display: none; }
   .two, .faq { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
-  .loop, .plans, .grid2 { grid-template-columns: 1fr; }
+  .loop, .plans, .grid2, .cards3 { grid-template-columns: 1fr; }
   section { padding-block: 60px; }
   .hero { padding-block: 44px; }
 }
@@ -271,25 +273,28 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="glow"></div>
   <div class="wrap">
     <div class="copy">
-      <span class="pill"><i></i>Private build · first 200 cases open in 2027</span>
-      <h1>From “I want to live there” to living there.</h1>
-      <p class="lead">Pathway is a personal case manager for visas, residence and citizenship. Tell it your goal; it finds the routes that are actually open to you, builds the plan, and then does the work: emails, document requests, appointments, forms. You approve anything irreversible.</p>
+      <span class="pill"><i></i>Private build · first 200 cases open in 2027 · trips and moves</span>
+      <h1>Any visa. Handled to the finish.</h1>
+      <p class="lead">A Schengen trip next month, a work permit for a new job, or citizenship in five years. Pathway is a personal case manager: tell it where you need to be, and it finds exactly what you need, builds the plan, and does the paperwork: forms, documents, appointments, follow-ups. You approve anything irreversible.</p>
       <div class="goalbox">
         <label for="goal">Your goal, in your words</label>
-        <textarea id="goal" placeholder="e.g. I'm a remote designer in São Paulo. I want to live in Lisbon and have a real path to staying in Europe."></textarea>
+        <textarea id="goal" placeholder="e.g. Indian passport, two weeks in Italy and France in May for a trade fair and a holiday. Or: I want to live in Lisbon and keep my remote job."></textarea>
         <div class="foot">
-          <span class="hint">We'll show you which routes exist, then invite you to run one.</span>
+          <span class="hint">We'll show you what you actually need, then invite you to let us run it.</span>
           <button class="btn pri" id="goal-go" type="button">Find my routes <svg width="16" height="16"><use href="#i-arrow"/></svg></button>
         </div>
       </div>
       <div class="examples" aria-label="Example goals">
+        <button type="button" data-ex="Indian passport. Two weeks in Italy and France in May: a trade fair in Milan, then a holiday.">Schengen trip · 2 weeks</button>
+        <button type="button" data-ex="Nigerian passport, invited to a conference in London in June. I need a visitor visa and I have had one refusal before.">UK visitor visa · conference</button>
         <button type="button" data-ex="I have a job offer in Berlin and want to move with my wife and daughter by March.">Job offer + family → Germany</button>
         <button type="button" data-ex="My grandmother was born in Italy. I want Italian citizenship for me and my kids.">Citizenship by ancestry</button>
         <button type="button" data-ex="I work remotely for a US company and want to live in Spain or Portugal.">Remote work → Spain / Portugal</button>
-        <button type="button" data-ex="I'm 22, finished school abroad, and want to study and then settle in the EU.">Study → settle in the EU</button>
+        <button type="button" data-ex="US B1/B2 for a client meeting in Austin in September; I travel on a Turkish passport.">US business visa</button>
       </div>
       <div class="proof">
         <span><svg width="16" height="16"><use href="#i-check"/></svg>Every rule shown with its official source and date</span>
+        <span><svg width="16" height="16"><use href="#i-check"/></svg>Government fees at cost, never marked up</span>
         <span><svg width="16" height="16"><use href="#i-check"/></svg>Payments and submissions always your click</span>
         <span><svg width="16" height="16"><use href="#i-check"/></svg>Licensed advisers on regulated steps</span>
       </div>
@@ -322,12 +327,45 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <div class="sec-head">
       <span class="eyebrow a">The problem</span>
       <h2>Information was never the problem. Finishing is.</h2>
-      <p class="lead">Every rule is online. What sinks people is the gate they didn't know to check, the office that never replies, and the rule that changed in month nine.</p>
+      <p class="lead">Every rule is online. What sinks people is the document they didn't know to bring, the appointment that never appears, the gate they didn't know to check, and the rule that changed in month nine.</p>
     </div>
     <div class="three">
       <div><span class="num">50–200h</span><b>spent on forums, embassy sites and group chats</b><p>And still no one asked the two questions that decided the case: which passport, which diploma.</p></div>
-      <div><span class="num">€2k–8k</span><b>for an agency to do the chasing</b><p>Relocation firms and consultants do the work, at a price most individuals can't justify, and only for one country.</p></div>
-      <div><span class="num">2–5 yrs</span><b>of paperwork that nobody tracks end to end</b><p>Renewals, hour caps, address changes, fee updates. A chatbot answers once. A case manager stays.</p></div>
+      <div><span class="num">3–7×</span><b>what visa agents mark up on a tourist visa</b><p>A government fee of €80 becomes €300 at the counter, and the agent still hands you a checklist to complete yourself. Relocation firms charge €2,000–8,000 for a move.</p></div>
+      <div><span class="num">1 missing paper</span><b>is a refused visa and a lost flight</b><p>Short stays are decided on completeness: itinerary, funds, insurance, invitation, in the exact format the consulate wants. For long stays, a case manager stays for years: renewals, caps, fee changes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="scope">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow a">What we handle</span>
+      <h2>A trip or a move. Same case manager, different horizon.</h2>
+    </div>
+    <div class="two">
+      <div class="listcard">
+        <span class="eyebrow a">Short stay · days to weeks</span>
+        <h3>Tourist, business, visitor, transit, e-visas</h3>
+        <p class="muted">Schengen type C, UK Standard Visitor, US B1/B2, Canada visitor, India and UAE e-visas, Japan, Türkiye and more. Also ETIAS, UK ETA and US ESTA, where no visa is needed but an approval is.</p>
+        <ul>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Tells you first whether you need a visa at all for your passport, destination and purpose</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Builds the exact checklist for that consulate, including the "main destination" rule for multi-country Schengen trips</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Pre-fills the form, drafts the cover letter and itinerary, checks insurance and funds against the thresholds</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Watches VFS, TLS and embassy appointment slots and prepares you for the interview</li>
+        </ul>
+      </div>
+      <div class="listcard">
+        <span class="eyebrow a">Long stay · months to years</span>
+        <h3>Work, study, family, residence, citizenship</h3>
+        <p class="muted">Digital-nomad and remote-work visas, EU Blue Card and skilled-worker permits, student routes, family reunification, permanent residence, and citizenship by descent or naturalisation.</p>
+        <ul>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Checks the hard gates first: passport type, degree recognition, income floor, ancestry line</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Finds the routes open to you and pins a fallback that shares the paperwork</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Chases schools, employers, landlords and archives for as long as it takes</li>
+          <li><svg width="16" height="16" style="color:var(--good)"><use href="#i-check"/></svg>Tracks renewals, hour caps and rule changes for the life of the case</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -336,7 +374,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow a">How it works</span>
-      <h2>One loop. You own every decision; the agent does the work.</h2>
+      <h2>One loop, whether it takes a week or five years.</h2>
     </div>
     <div class="loop">
       <div class="st"><span class="eyebrow">1 · Goal</span><b>Say it</b><span>A sentence becomes an end state with your constraints and priorities.</span></div>
@@ -353,12 +391,21 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow a">Who it's for</span>
-      <h2>Three very different lives. The same case manager.</h2>
+      <h2>Four journeys. The same case manager.</h2>
       <p class="lead">Illustrative cases from our research. Names are invented; the rules are real.</p>
     </div>
     <div class="cards3">
       <div class="pcard">
-        <div class="who"><div class="av" style="background:#2E5BFF">M</div><div><b>Maya, 31 · remote designer</b><span>São Paulo → Lisbon</span></div></div>
+        <div class="who"><div class="av" style="background:#A85A00">P</div><div><b>Priya, 34 · Mumbai</b><span>Schengen · 2 weeks, 2 countries</span></div></div>
+        <q>A trade fair in Milan, then a week in France. Indian passport. I can't afford a refusal.</q>
+        <div class="did">
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Main destination worked out (Italy, by days), so the file goes to the right consulate</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>Checklist, cover letter, itinerary and insurance assembled to the consulate's format</div>
+          <div><svg width="14" height="14"><use href="#i-check"/></svg>VFS slot watched and booked; fee paid at cost</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="who"><div class="av" style="background:#2E5BFF">M</div><div><b>Maya, 31 · designer</b><span>São Paulo → Lisbon</span></div></div>
         <q>I want to keep my job and have a real path to staying in Europe.</q>
         <div class="did">
           <div><svg width="14" height="14"><use href="#i-check"/></svg>Income checked against the D8 floor, with the source</div>
@@ -396,12 +443,13 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     </div>
     <div class="compare-scroll">
     <div class="compare">
-      <div class="h"></div><div class="h">Forums &amp; AI chat</div><div class="h">Agency or lawyer</div><div class="h us">Pathway</div>
-      <div class="lbl">Finds routes open to <em>you</em></div><div class="no">Generic answers</div><div class="yes">Yes</div><div class="us yes">Yes, with gates first</div>
-      <div class="lbl">Does the work (emails, forms, bookings)</div><div class="no">No</div><div class="yes">Yes</div><div class="us yes">Yes, you approve</div>
+      <div class="h"></div><div class="h">Visa apps &amp; agents</div><div class="h">Relocation agency or lawyer</div><div class="h us">Pathway</div>
+      <div class="lbl">Short-stay visas (tourist, business)</div><div class="yes">Yes</div><div class="no">Rarely</div><div class="us yes">Yes, fee at cost</div>
+      <div class="lbl">Finds routes open to <em>you</em> for a move</div><div class="no">No</div><div class="yes">Yes</div><div class="us yes">Yes, with gates first</div>
+      <div class="lbl">Does the work (emails, forms, bookings)</div><div class="no">Forms only</div><div class="yes">Yes</div><div class="us yes">Yes, you approve</div>
       <div class="lbl">Tracks the case for years</div><div class="no">No</div><div class="no">Usually one filing</div><div class="us yes">Yes, with rule monitoring</div>
       <div class="lbl">Shows the official source for every rule</div><div class="no">Rarely</div><div class="no">On request</div><div class="us yes">Always, with a date</div>
-      <div class="lbl">Cost</div><div class="yes">Free</div><div class="no">€2,000–8,000 per move</div><div class="us yes">From €39 / month while active</div>
+      <div class="lbl">Cost</div><div class="no">€30–300 service fee, fees marked up</div><div class="no">€2,000–8,000 per move</div><div class="us yes">€29 per short-stay visa · from €39 / month for a move</div>
     </div>
     </div>
   </div>
@@ -441,10 +489,16 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow a">Pricing · planned</span>
-      <h2>Pay while the case is running. Discovery is free.</h2>
+      <h2>A flat fee per trip. A monthly fee while a move is running. Discovery is free.</h2>
       <p class="lead">These are the plans we intend to launch with. Tell us which one you'd choose; it shapes what we build first.</p>
     </div>
     <div class="plans">
+      <div class="plan">
+        <span class="eyebrow">Trip</span>
+        <div class="price">€29 <small>per visa + government fee at cost</small></div>
+        <ul><li>Do-I-need-a-visa check for your passport and trip</li><li>Consulate-specific checklist, pre-filled form, cover letter, itinerary</li><li>Appointment watching and interview prep</li><li>Family and group pricing</li></ul>
+        <a class="btn sec" href="#join" data-plan="trip" data-track="plan_interest">I'd use this for a trip</a>
+      </div>
       <div class="plan">
         <span class="eyebrow">Discover</span>
         <div class="price">€0</div>
@@ -463,13 +517,9 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <ul><li>Everything in Case</li><li>Family members on one case</li><li>Document production and translations credit</li><li>One licensed review included per quarter</li></ul>
         <a class="btn sec" href="#join" data-plan="pro" data-track="plan_interest">I'd pay for this</a>
       </div>
-      <div class="plan">
-        <span class="eyebrow">Expert review</span>
-        <div class="price" style="font-size:28px">€150–400 <small>per review</small></div>
-        <ul><li>A licensed adviser reviews a filing, an eligibility question or a refusal</li><li>Named, with a written finding</li><li>Available on any plan</li></ul>
-        <a class="btn sec" href="#join" data-plan="expert" data-track="plan_interest">I'd want this</a>
       </div>
     </div>
+    <p class="muted small" style="margin-top:18px">Expert review: a licensed adviser reviews a filing, an eligibility question or a refusal, €150–400 per review, named and with a written finding. Available on any plan.</p>
   </div>
 </section>
 
@@ -480,19 +530,20 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <div class="inner">
         <div style="display:flex;flex-direction:column;gap:18px">
           <span class="eyebrow">Early access</span>
-          <h2>We're opening the first 200 cases in 2027. Tell us yours.</h2>
-          <p class="lead">You'll get an honest answer within a few days: which routes we can run for your goal now, which we can't yet, and when. No marketing drip.</p>
+          <h2>We're opening the first 200 cases in 2027. A trip or a move, tell us yours.</h2>
+          <p class="lead">You'll get an honest answer within a few days: whether we can run your visa or route now, what we can't yet, and when. No marketing drip.</p>
           <div style="display:flex;flex-direction:column;gap:10px;color:rgba(255,255,255,.72);font-size:14.5px">
-            <span style="display:flex;gap:10px;align-items:flex-start"><svg width="16" height="16" style="color:#8FA7FF;flex-shrink:0;margin-top:3px"><use href="#i-check"/></svg>Corridors opening first: Portugal and Spain for remote workers; Germany for skilled workers and families; Italy and Poland by descent; France and Germany study routes.</span>
+            <span style="display:flex;gap:10px;align-items:flex-start"><svg width="16" height="16" style="color:#8FA7FF;flex-shrink:0;margin-top:3px"><use href="#i-check"/></svg>Opening first: Schengen, UK and US visitor visas for Indian, Nigerian, Turkish and Brazilian passports; Portugal and Spain for remote workers; Germany for skilled workers and families; Italy and Poland by descent.</span>
             <span style="display:flex;gap:10px;align-items:flex-start"><svg width="16" height="16" style="color:#8FA7FF;flex-shrink:0;margin-top:3px"><use href="#i-check"/></svg>Your goal and email are used only to assess your case and invite you. Delete them any time by replying to our first email.</span>
           </div>
         </div>
         <form class="form" id="form" novalidate>
           <div id="step1" style="display:flex;flex-direction:column;gap:14px">
-            <div class="field"><label for="f-goal">Your goal</label><textarea id="f-goal" name="goal" placeholder="Where do you want your life to be, and what's your situation?"></textarea></div>
+            <div class="field"><label for="f-goal">Your trip or goal</label><textarea id="f-goal" name="goal" placeholder="Passport, destination, purpose and dates. Or where you want your life to be."></textarea></div>
             <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
             <div class="field"><span style="font-size:13px;font-weight:600">Which describes you best?</span>
               <div class="seg" role="radiogroup" aria-label="Situation">
+                <label><input type="radio" name="situation" value="trip">Short trip: tourist / business</label>
                 <label><input type="radio" name="situation" value="remote">Remote worker / freelancer</label>
                 <label><input type="radio" name="situation" value="offer">Job offer abroad</label>
                 <label><input type="radio" name="situation" value="student">Study route</label>
@@ -502,8 +553,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
               </div>
             </div>
             <div class="grid2">
-              <div class="field"><label for="f-when">When do you want to move?</label><select id="f-when" name="timeline"><option value="">Choose</option><option value="lt6">Within 6 months</option><option value="6to12">6–12 months</option><option value="1to2y">1–2 years</option><option value="2y+">2+ years</option><option value="unsure">Not sure yet</option></select></div>
-              <div class="field"><label for="f-plan">Plan you'd choose</label><select id="f-plan" name="plan"><option value="">Choose</option><option value="discover">Discover (free)</option><option value="case">Case · €39/mo</option><option value="pro">Case Pro · €99/mo</option><option value="expert">Expert review only</option><option value="none">None of these</option></select></div>
+              <div class="field"><label for="f-when">When do you need to be there?</label><select id="f-when" name="timeline"><option value="">Choose</option><option value="lt6">Within 6 months</option><option value="6to12">6–12 months</option><option value="1to2y">1–2 years</option><option value="2y+">2+ years</option><option value="unsure">Not sure yet</option></select></div>
+              <div class="field"><label for="f-plan">Plan you'd choose</label><select id="f-plan" name="plan"><option value="">Choose</option><option value="trip">Trip · €29 per visa</option><option value="discover">Discover (free)</option><option value="case">Case · €39/mo</option><option value="pro">Case Pro · €99/mo</option><option value="expert">Expert review only</option><option value="none">None of these</option></select></div>
             </div>
             <span class="err" id="err">Enter a valid email so we can reply.</span>
             <button class="btn pri lg" type="submit" id="submit">Request early access <svg width="16" height="16"><use href="#i-arrow"/></svg></button>
@@ -514,7 +565,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
             <h3>You're on the list.</h3>
             <p class="muted">We'll read your goal and reply with what we can run for you. Two more questions help us decide what to build first:</p>
             <div class="hidden-step on" id="step2">
-              <div class="field"><span style="font-size:13px;font-weight:600">What would you honestly pay per month while your case is active?</span>
+              <div class="field"><span style="font-size:13px;font-weight:600">What would you honestly pay: per visa for a trip, or per month while a move is running?</span>
                 <div class="seg" role="radiogroup" aria-label="Willingness to pay">
                   <label><input type="radio" name="wtp" value="0">€0</label>
                   <label><input type="radio" name="wtp" value="10-19">€10–19</label>
@@ -544,11 +595,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <h2>Fair questions.</h2>
     </div>
     <div class="faq">
+      <details><summary>Do you handle ordinary tourist and business visas?</summary><p>Yes, and they come first. For a short stay the job is completeness: the right consulate, the exact checklist, a pre-filled form, insurance and funds in the format they want, and an appointment. You pay a flat €29 per visa; the government fee is passed through at cost. If your passport doesn't need a visa for that trip, we tell you so for free, including whether an ETIAS, ETA or ESTA applies.</p></details>
       <details><summary>Is this legal advice?</summary><p>No. Pathway shows you the official rule, with its source and the date we last checked it, and applies it to the facts you give us. Where a legal opinion is required or the law regulates who may advise, a licensed adviser is brought onto your case and named. You always see which steps were theirs.</p></details>
       <details><summary>What does the agent actually do without me?</summary><p>Only what you allow in your mandate: writing to the kinds of counterparties you tick (schools, landlords, employers, archives), chasing them, requesting documents, pre-filling forms, and watching slots and rules. Payments, government submissions, signatures and anything that fixes a date always come to you first.</p></details>
-      <details><summary>Which countries first?</summary><p>Portugal and Spain for remote workers; Germany for skilled workers and families; Italy and Poland by descent; France and Germany student routes. Each corridor launches only after a licensed partner has reviewed its rules. Tell us your goal even if it isn't listed; demand decides the order.</p></details>
+      <details><summary>Which countries first?</summary><p>Short stays: Schengen, UK and US visitor visas for Indian, Nigerian, Turkish and Brazilian passports. Moves: Portugal and Spain for remote workers; Germany for skilled workers and families; Italy and Poland by descent; France and Germany student routes. Each corridor launches only after a licensed partner has reviewed its rules. Tell us your trip or goal even if it isn't listed; demand decides the order.</p></details>
       <details><summary>What happens to my documents?</summary><p>They're stored in the EU, encrypted with a key tied to your account, and read field by field only by the agents working your case. Nothing is used to train models. You can delete anything at any time.</p></details>
-      <details><summary>What if my application is refused?</summary><p>The plan carries a pinned fallback from day one, chosen so it shares most of the paperwork. On a refusal the agent stops, explains the reason as stated by the authority, and re-plans with you. It never resubmits on its own.</p></details>
+      <details><summary>What if my application is refused?</summary><p>For a short stay, a refusal letter is read against the file: the agent explains the stated ground and what a stronger reapplication would need, and the €29 is credited to it. For a move, the plan carries a pinned fallback from day one, chosen so it shares most of the paperwork. The agent never resubmits on its own.</p></details>
       <details><summary>Why early access and not a product today?</summary><p>Because we want to run real cases with a small group before opening up, and because every corridor needs rules verified by a licensed partner first. The first 200 cases get the attention of a concierge and a price that stays fixed for the life of the case.</p></details>
     </div>
   </div>
